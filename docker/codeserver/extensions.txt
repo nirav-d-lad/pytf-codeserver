@@ -1,0 +1,13 @@
+# Core
+ms-python.python
+ms-toolsai.jupyter
+ms-pyright.pyright
+ms-python.black-formatter
+
+# Writing / docs / data
+mechatroner.rainbow-csv
+mathematic.vscode-pdf
+czhang03.unicode-math-input
+
+# Icons (note: sometimes marketplace availability varies under code-server)
+vscode-icons-team.vscode-icons

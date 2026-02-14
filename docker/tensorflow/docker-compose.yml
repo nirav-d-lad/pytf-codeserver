@@ -1,0 +1,6 @@
+services:
+  oper785:
+    image: oper785/tensorflow-codeserver:latest
+    build:
+      context: ..
+      dockerfile: tensorflow/Dockerfile

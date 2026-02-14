@@ -1,0 +1,47 @@
+FROM python:3.12-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    TF_FORCE_GPU_ALLOW_GROWTH=true
+
+# System packages (common DS tooling)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    libgl1 \
+    libglib2.0-0 \
+    libxrender1 \
+    libsm6 \
+    libxext6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install code-server (VS Code in the browser)
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+WORKDIR /workspace
+
+# Python deps (TF image uses system python)
+COPY pytf/requirements.txt .
+RUN python3 -m pip install --upgrade pip setuptools wheel \
+ && python3 -m pip install --no-cache-dir -r requirements.txt \
+ && rm -f requirements.txt
+
+# --- code-server config files ---
+COPY codeserver/extensions.txt /tmp/extensions.txt
+COPY codeserver/settings.json /root/.local/share/code-server/User/settings.json
+COPY codeserver/extensions.json /workspace/.vscode/extensions.json
+
+RUN set -eux; \
+    mkdir -p /root/.local/share/code-server/User /workspace/.vscode; \
+    while IFS= read -r ext || [ -n "$ext" ]; do \
+      ext="$(printf '%s' "$ext" | tr -d '\r')"; \
+      [ -z "$ext" ] && continue; \
+      case "$ext" in \#*) continue ;; esac; \
+      echo "Installing: $ext"; \
+      code-server --install-extension "$ext" || true; \
+    done < /tmp/extensions.txt; \
+    rm -f /tmp/extensions.txt
+
+EXPOSE 8080
+CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/workspace"]

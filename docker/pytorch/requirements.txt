@@ -1,0 +1,49 @@
+# =============================
+# Pytorch
+# =============================
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch
+torchvision
+
+# =============================
+# Reinforcement Learning
+# =============================
+gymnasium[box2d]
+#stable-baselines3
+
+# =============================
+# Core Scientific Stack
+# =============================
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+scikit-learn
+statsmodels
+
+# =============================
+# Visualization / Plotting
+# =============================
+plotly
+bokeh
+
+# =============================
+# Utilities
+# =============================
+tqdm
+joblib
+
+# =============================
+# Jupyter / Teaching Tools
+# =============================
+jupyterlab
+notebook
+ipykernel
+ipywidgets
+
+# =============================
+# Optional Nice-to-Haves
+# =============================
+sympy
+networkx

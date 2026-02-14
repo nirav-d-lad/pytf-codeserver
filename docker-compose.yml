@@ -1,0 +1,35 @@
+services:
+  pytf:
+    # Always pull the latest image from the registry before starting
+    image: oper785/pytf-codeserver:latest
+    pull_policy: always
+
+    # Enable NVIDIA GPU access (modern Docker Compose)
+    gpus: all
+
+    # Map host port -> container port 8080
+    ports:
+      - "8080"
+
+
+    # Mount current folder into /workspace in the container
+    volumes:
+      - ./:/workspace
+
+    # Default working directory when you exec into the container
+    working_dir: /workspace
+
+    # Increase shared memory (helps Jupyter/TF/PyTorch dataloaders, multiprocessing, etc.)
+    shm_size: "2gb"
+
+    # Optional: restrict/advertise GPUs and driver capabilities
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+    # Keep STDIN open and allocate a TTY (nice for interactive shells)
+    stdin_open: true
+    tty: true
+
+    # Restart policy
+    restart: unless-stopped

@@ -1,0 +1,6 @@
+services:
+  oper785:
+    image: oper785/pytorch-codeserver:latest
+    build:
+      context: ..
+      dockerfile: pytorch/Dockerfile

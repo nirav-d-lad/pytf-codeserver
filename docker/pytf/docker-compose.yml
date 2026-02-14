@@ -1,0 +1,6 @@
+services:
+  oper785:
+    image: oper785/pytf-codeserver:latest
+    build:
+      context: ..
+      dockerfile: pytf/Dockerfile

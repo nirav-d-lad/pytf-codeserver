@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-toolsai.jupyter",
+    "ms-pyright.pyright",
+    "ms-python.black-formatter",
+    "mechatroner.rainbow-csv",
+    "charliermarsh.ruff",
+    "czhang03.unicode-math-input"
+  ]
+}

@@ -1,0 +1,40 @@
+services:
+  pytorch:
+
+    # Docker image pulled from registry
+    image: oper785/pytorch-codium:latest
+
+    # Always pull newest image before starting
+    pull_policy: always
+
+    # Enable NVIDIA GPU access (modern Docker Compose way)
+    gpus: all
+
+    # Map host port -> container port 8080
+    ports:
+      - "8080"
+      
+    # Mount current directory into container workspace
+    volumes:
+      - ./:/workspace
+
+    # Default working directory inside container
+    working_dir: /workspace
+
+    # Start code-server listening on all interfaces, no auth, open /workspace
+    command: ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none", "/workspace"]
+
+    # Increase shared memory (helps PyTorch dataloaders/multiprocessing)
+    shm_size: "2gb"
+
+    # Optional: restrict/advertise GPUs and driver capabilities
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+    # Keep terminal interactive (useful for docker exec -it)
+    stdin_open: true
+    tty: true
+
+    # Restart automatically unless manually stopped
+    restart: unless-stopped
